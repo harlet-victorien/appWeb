@@ -1,15 +1,15 @@
-import { FC } from "react";
+import React, { FC } from "react";
 
 type Props = {
-  children: string
-  name: string
-}
+  children: string;
+  name: string;
+};
 
-export const Hello: FC<Props> = (props) => {
+export const Hello: FC<Props> = ({ name, children }) => {
   return (
     <>
-      <h1>Hello {props.name} !</h1>
-      <h2>{props.children}</h2>
+      <h1>Hello {name}!</h1>
+      <h2>{children}</h2>
     </>
   );
-}
+};

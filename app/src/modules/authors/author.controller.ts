@@ -1,25 +1,43 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { AuthorService } from './author.service';
-import { CreateAuthorDto } from './author.dto';
-import { AuthorPresenter } from './author.presenter';
+import { CreateAuthorDto, UpdateAuthorDto } from './author.dto';
+import { AuthorModel, CreateAuthorModel } from './author.model';
 
-@Controller('/authors')
+@Controller('authors')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @Get()
-  public async listAuthors(): Promise<AuthorPresenter[]> {
-    const authors = await this.authorService.listAuthors();
+  getAuthors(): Promise<AuthorModel[]> {
+    return this.authorService.getAuthors();
+  }
 
-    return authors.map(AuthorPresenter.from);
+  @Get(':id')
+  getAuthorById(@Param('id') id: string): Promise<AuthorModel> {
+    return this.authorService.getAuthorById(id);
   }
 
   @Post()
-  public async createAuthor(
-    @Body() input: CreateAuthorDto,
-  ): Promise<AuthorPresenter> {
-    const author = await this.authorService.createAuthor(input);
+  createAuthor(@Body() createAuthorDto: CreateAuthorDto): Promise<AuthorModel> {
+    const createAuthorModel: CreateAuthorModel = {
+      firstName: createAuthorDto.firstName,
+      lastName: createAuthorDto.lastName,
+      photo: createAuthorDto.photo,
+      biography: createAuthorDto.biography,
+    };
+    return this.authorService.createAuthor(createAuthorModel);
+  }
 
-    return AuthorPresenter.from(author);
+  @Patch(':id')
+  updateAuthor(
+    @Param('id') id: string,
+    @Body() updateAuthorDto: UpdateAuthorDto,
+  ): Promise<AuthorModel> {
+    return this.authorService.updateAuthor(id, updateAuthorDto);
+  }
+
+  @Delete(':id')
+  deleteAuthor(@Param('id') id: string): Promise<void> {
+    return this.authorService.deleteAuthor(id);
   }
 }

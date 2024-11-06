@@ -1,47 +1,34 @@
-import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString } from 'class-validator';
-
-export class CreateBookAuthorDto {
-  @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
-}
+import { IsString, IsNumber, IsDate, IsUUID } from 'class-validator';
 
 export class CreateBookDto {
   @IsString()
   title: string;
 
-  @IsInt()
-  yearPublished: number;
+  @IsDate()
+  publicationDate: Date;
 
-  @Type(() => CreateBookAuthorDto)
+  @IsNumber()
+  price: number;
+
+  @IsUUID()
   authorId: string;
-}
-
-export class CreateBooksDto {
-  book?: CreateBookDto;
-
-  books?: CreateBookDto[];
 }
 
 export class UpdateBookDto {
   @IsString()
-  @IsOptional()
-  title: string;
+  title?: string;
 
-  @IsInt()
-  @IsOptional()
-  yearPublished: number;
+  @IsDate()
+  publicationDate?: Date;
 
-  @Type(() => CreateBookAuthorDto)
-  @IsOptional()
-  author: CreateBookAuthorDto;
+  @IsNumber()
+  price?: number;
 }
 
 export class GetBooksDto {
   @IsString()
-  @IsOptional()
-  name: string;
+  search?: string;
+
+  @IsString()
+  sortBy?: 'title' | 'publicationDate' | 'price';
 }

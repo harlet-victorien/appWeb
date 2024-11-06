@@ -1,54 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { AuthorEntity } from '../database/entities/author.entity';
-import { BookEntity, BookId } from '../database/entities/book.entity';
-import { BookModel, CreateBookModel, UpdateBookModel } from './book.model';
+import { Author} from '../database/entities/author.entity';
+import { Book } from '../database/entities/book.entity';
+import { CreateBookDto, UpdateBookDto } from './book.dto';
 
 @Injectable()
 export class BookRepository {
-  private readonly authorRepository =
-    this.dataSource.getRepository(AuthorEntity);
-  private readonly bookRepository = this.dataSource.getRepository(BookEntity);
-
   constructor(private readonly dataSource: DataSource) {}
 
-  public async listBooks(): Promise<BookModel[]> {
-    const books = await this.bookRepository.find({
-      relations: { author: true },
-    });
+  private readonly bookRepository = this.dataSource.getRepository(Book);
+  private readonly authorRepository = this.dataSource.getRepository(Author);
 
-    return books;
+  async findAll(query: { search?: string; sortBy?: string }): Promise<Book[]> {
+    const queryBuilder = this.bookRepository.createQueryBuilder('book')
+      .leftJoinAndSelect('book.author', 'author')
+      .leftJoinAndSelect('book.reviews', 'reviews');
+
+    if (query.search) {
+      queryBuilder.where('book.title ILIKE :search', { search: `%${query.search}%` });
+    }
+
+    if (query.sortBy) {
+      queryBuilder.orderBy(`book.${query.sortBy}`);
+    }
+
+    return queryBuilder.getMany();
   }
 
-  public async getBookById(id: BookId): Promise<BookModel | undefined> {
-    const book = await this.bookRepository.findOneOrFail({
+  async findOne(id: string): Promise<Book> {
+    return this.bookRepository.findOneOrFail({
       where: { id },
-      relations: { author: true },
+      relations: ['author', 'reviews']
     });
-
-    return book;
   }
 
-  public async updateBook(id: BookId, input: UpdateBookModel) {
-    await this.bookRepository.update(id, input);
-  }
-
-  public async createBook(input: CreateBookModel): Promise<BookModel> {
-    const author = await this.authorRepository.findOneOrFail({
-      where: { id: input.authorId },
-    });
-
+  async create(data: CreateBookDto): Promise<Book> {
+    const author = await this.authorRepository.findOneByOrFail({ id: data.authorId });
     const book = this.bookRepository.create({
-      ...input,
-      author,
+      ...data,
+      author
     });
-
-    const savedBook = await this.bookRepository.save(book);
-
-    return savedBook;
+    return this.bookRepository.save(book);
   }
 
-  public async deleteBook(id: BookId) {
+  async update(id: string, data: UpdateBookDto): Promise<Book> {
+    await this.bookRepository.update(id, data);
+    return this.findOne(id);
+  }
+
+  async delete(id: string): Promise<void> {
     await this.bookRepository.delete(id);
   }
 }

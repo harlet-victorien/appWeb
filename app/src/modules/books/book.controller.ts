@@ -1,57 +1,40 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
-import { CreateBooksDto, GetBooksDto, UpdateBookDto } from './book.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpCode } from '@nestjs/common';
 import { BookService } from './book.service';
+import { CreateBookDto, GetBooksDto, UpdateBookDto } from './book.dto';
 import { BookPresenter } from './book.presenter';
-import { BookId } from '../database/entities/book.entity';
+
 
 @Controller('books')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Get()
-  public async getBooks(@Query() input: GetBooksDto) {
-    return this.bookService.listBooks();
+  async findAll(@Query() query: GetBooksDto) {
+    const books = await this.bookService.findAll(query);
+    return books.map(book => BookPresenter.toResponse(book));
   }
 
   @Get(':id')
-  public async getBookById(@Param('id') id: BookId) {
-    const book = await this.bookService.getBookById(id);
-
-    return BookPresenter.from(book);
+  async findOne(@Param('id') id: string) {
+    const book = await this.bookService.findOne(id);
+    return BookPresenter.toResponse(book);
   }
 
   @Post()
-  public async createBook(@Body() input: CreateBooksDto) {
-    if (input.books) {
-      return Promise.all(
-        input.books.map((book) => this.bookService.createBook(book)),
-      );
-    }
-
-    if (input.book) {
-      return this.bookService.createBook(input.book);
-    }
+  async create(@Body() createBookDto: CreateBookDto) {
+    const book = await this.bookService.create(createBookDto);
+    return BookPresenter.toResponse(book);
   }
 
   @Patch(':id')
-  public async updateBook(
-    @Param('id') id: BookId,
-    @Body() input: UpdateBookDto,
-  ) {
-    return this.bookService.updateBook(id, input);
+  async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    const book = await this.bookService.update(id, updateBookDto);
+    return BookPresenter.toResponse(book);
   }
 
   @Delete(':id')
-  public async deleteBook(@Param('id') id: BookId) {
-    return this.bookService.deleteBook(id);
+  @HttpCode(204)
+  remove(@Param('id') id: string) {
+    return this.bookService.remove(id);
   }
 }

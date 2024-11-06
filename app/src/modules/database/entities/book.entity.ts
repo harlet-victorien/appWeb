@@ -1,27 +1,24 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { AuthorEntity } from './author.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Author } from './author.entity';
+import { Review } from './review.entity';
 
-export type BookId = string & { __brand: 'Book' };
-
-@Entity('books')
-export class BookEntity extends BaseEntity {
+@Entity()
+export class Book {
   @PrimaryGeneratedColumn('uuid')
-  id: BookId;
+  id: string;
 
-  @Column({ name: 'title', type: 'varchar' })
+  @Column()
   title: string;
 
-  @Column({ name: 'year_published', type: 'int' })
-  yearPublished: number;
+  @Column()
+  publicationDate: Date;
 
-  @ManyToOne(() => AuthorEntity, { nullable: false })
-  @JoinColumn({ name: 'author_id' })
-  author: AuthorEntity;
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
+
+  @ManyToOne(() => Author, author => author.books)
+  author: Author;
+
+  @OneToMany(() => Review, review => review.book)
+  reviews: Review[];
 }

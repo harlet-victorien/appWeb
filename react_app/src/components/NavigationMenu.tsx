@@ -1,4 +1,4 @@
-// components/NavigationMenu.tsx
+
 'use client';
 import Link from 'next/link';
 
@@ -6,7 +6,7 @@ type MenuItem = {
   name: string;
   path: string;
 };
-
+// mettre le lien des pages ( tester avec des pages qui n'existent plus)
 const menuItems: MenuItem[] = [
   { name: "Page d'accueil", path: '/' },
   { name: 'Liste des livres', path: '/livres' },

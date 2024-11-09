@@ -1,25 +1,22 @@
-'use client'
-import { useRouter } from "next/navigation"
-import { FC, ReactElement } from "react"
-import "./GlobalLayout.css"
-import { Button } from "../components/Button"
-
+'use client';
+import { useRouter } from 'next/navigation';
+import { FC, ReactElement } from 'react';
+import './GlobalLayout.css';
+import { NavigationMenu } from '../components/NavigationMenu';
 
 type Props = {
-  children: ReactElement | ReactElement[]
-}
+  children: ReactElement | ReactElement[];
+};
 
 export const GlobalLayout: FC<Props> = ({ children }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  return <>
-    <div>
-      <Button onClick={() => router.push('/')}>Home</Button>
-      <Button onClick={() => router.push('/books')}>Books</Button>
-    </div>
-    <div>
-      {children}
-    </div>
-  </>
-}
-
+  return (
+    <>
+      <NavigationMenu />
+      <div>
+        {children}
+      </div>
+    </>
+  );
+};

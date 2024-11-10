@@ -19,12 +19,12 @@ export const GlobalLayout: FC<Props> = ({ children }) => {
 
       
       {/* Contenu Principal */}
-      <main className="flex-grow p-4 bg-gray-800 text-white"> {/* Added text-white and changed bg-gray-100 to bg-gray-800 */}
+      <main className="flex-grow bg-gray-800 text-white"> {/* Removed padding and adjusted classes */}
         {children}
       </main>
       
       {/* Pied de Page */}
-      <footer className="bg-blue-500 text-white p-4 text-center">
+      <footer className="text-white p-4 text-center">
       </footer>
     </div>
   );

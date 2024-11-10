@@ -2,14 +2,17 @@
 "use client";
 
 import React from 'react';
-import { GlobalLayout } from '../GlobalLayout';
+import Layout from '../../components/Layout';
+import { PageTitle } from '../../components/PageTitle';
 
 const AuthorsPage = () => {
   return (
-    <GlobalLayout>
-      {/* Removed <main> tag */}
-      <h1 className="text-3xl font-bold">Bienvenue sur la Page des Auteurs</h1>
-    </GlobalLayout>
+    <Layout title="Page des Auteurs">
+      <main className="flex flex-col items-center justify-center min-h-screen py-2">
+        <PageTitle title="Bienvenue sur la Page des Auteurs" />
+        <p className="mt-4 text-lg">Cette page affiche la liste des auteurs.</p>
+      </main>
+    </Layout>
   );
 };
 

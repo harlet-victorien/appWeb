@@ -1,27 +1,19 @@
+// src/app/page.tsx
 'use client';
-import { useState } from 'react';
-import './App.css';
+
+import React from 'react';
 import { GlobalLayout } from './GlobalLayout';
-import { Hello } from './Hello';
-import { Button } from '../components/Button';
+import '../styles/App.css';
 
-
-function App() {
-  const [name, setName] = useState<string>('Gérald')
-  const [newName, setNewName] = useState<string>('')
-
-  const onValidate = () => {
-    setName(newName)
-    setNewName('')
-  }
-
+const HomePage: React.FC = () => {
   return (
     <GlobalLayout>
-      <Hello name={name}>How are you ?</Hello>
-      <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-      <Button onClick={onValidate}>Ok</Button>
+      <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
+        <h2 className="text-5xl text-center mb-4">Bonjour, Victor!</h2>
+        <p className="text-xl text-center">Bienvenue sur la page d'accueil de notre site web.</p>
+      </div>
     </GlobalLayout>
   );
-}
+};
 
-export default App;
+export default HomePage;

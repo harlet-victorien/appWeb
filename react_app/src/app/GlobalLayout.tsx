@@ -19,7 +19,7 @@ export const GlobalLayout: FC<Props> = ({ children }) => {
 
       
       {/* Contenu Principal */}
-      <main className="flex-grow p-4 bg-gray-100">
+      <main className="flex-grow p-4 bg-gray-800 text-white"> {/* Added text-white and changed bg-gray-100 to bg-gray-800 */}
         {children}
       </main>
       

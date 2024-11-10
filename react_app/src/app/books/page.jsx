@@ -4,6 +4,7 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import { PageTitle } from '../../components/PageTitle';
+import '../../styles/GlobalLayout.css';
 
 const AuthorsPage = () => {
   return (

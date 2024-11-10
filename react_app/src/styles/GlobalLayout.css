@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
-@tailwind children;
+@tailwind utilities;
+
+/* Ensure main content starts below the fixed navbar */
+main {
+  margin-top: 60px; /* Adjust according to the navbar height */
+}

@@ -9,7 +9,7 @@ import { PageTitle } from '../components/PageTitle';
 
 const HomePage: React.FC = () => {
   return (
-    <GlobalLayout title="Page d'accueil">
+    <GlobalLayout >
       <main className="flex flex-col items-center justify-center min-h-screen py-2">
         <PageTitle title="Bienvenue sur la Page d'accueil" />
         <p className="mt-4 text-lg">Cette page affiche la liste des auteurs.</p>

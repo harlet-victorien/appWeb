@@ -5,7 +5,7 @@ import React from 'react';
 import Layout from '../../components/Layout.tsx';
 import { PageTitle } from '../../components/PageTitle';
 import '../../styles/GlobalLayout.css';
-import { GlobalLayout } from '../GlobalLayout.jsx';
+import { GlobalLayout } from '../GlobalLayout.tsx';
 
 const AuthorsPage = () => {
   return (

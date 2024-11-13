@@ -8,9 +8,8 @@ config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-
+  app.enableCors(); // Permet les requêtes CORS
   await app.listen(process.env.PORT);
-
   console.log(`🚀 API listening on PORT ${process.env.PORT}`);
 }
 

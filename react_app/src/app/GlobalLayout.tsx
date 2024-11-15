@@ -1,25 +1,31 @@
-'use client'
-import { useRouter } from "next/navigation"
-import { FC, ReactElement } from "react"
-import "./GlobalLayout.css"
-import { Button } from "../components/Button"
-
+// src/app/GlobalLayout.tsx
+'use client';
+import React, { FC, ReactElement } from 'react';
+import '../styles/GlobalLayout.css';
+import '../styles/App.css';
+import { NavBar } from '../components/NavBar';
 
 type Props = {
-  children: ReactElement | ReactElement[]
-}
+  children: ReactElement | ReactElement[];
+};
 
 export const GlobalLayout: FC<Props> = ({ children }) => {
-  const router = useRouter()
+  return (
+    <div className="App-header"> {/* Updated class name */}
+      {/* Navigation Bar */}
+      <NavBar />
 
-  return <>
-    <div>
-      <Button onClick={() => router.push('/')}>Home</Button>
-      <Button onClick={() => router.push('/books')}>Books</Button>
-    </div>
-    <div>
-      {children}
-    </div>
-  </>
-}
+      {/* Entête */}
 
+      
+      {/* Contenu Principal */}
+      <main className="flex-grow bg-gray-800 text-white"> {/* Removed padding and adjusted classes */}
+        {children}
+      </main>
+      
+      {/* Pied de Page */}
+      <footer className="text-white p-4 text-center">
+      </footer>
+    </div>
+  );
+};

@@ -3,33 +3,33 @@
 import React, { useState, useEffect } from 'react';
 import { GlobalLayout } from '../../GlobalLayout';
 import { useParams, useRouter } from 'next/navigation';
-import { useListBookProvider } from '../../../providers/useBooksProviders';
+import { useListAuthorProvider } from '../../../providers/useAuthorsProvider';
 
-const BookDetailPage = () => {
+const AuthorDetailPage = () => {
     const params = useParams();
     const { id } = params;
     const router = useRouter();
-    const { book, loadBooksid } = useListBookProvider();
+    const { author, loadAuthorById } = useListAuthorProvider();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchBook = async () => {
+        const fetchAuthor = async () => {
             try {
-                await loadBooksid(id);
+                await loadAuthorById(id);
             } catch (err) {
-                setError('Livre non trouvé.');
+                setError('Auteur non trouvé.');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBook();
+        fetchAuthor();
     }, [id]);
 
     if (loading) {
         return (
-            <GlobalLayout title="Detail du livre">
+            <GlobalLayout title="Detail de l'auteur">
                 <main className="flex flex-col items-center justify-center min-h-screen py-4 px-6">
                     <p className="text-gray-500">Chargement...</p>
                 </main>
@@ -39,30 +39,30 @@ const BookDetailPage = () => {
 
     if (error) {
         return (
-            <GlobalLayout title="Detail du livre">
+            <GlobalLayout title="Detail de l'auteur">
                 <main className="flex flex-col items-center justify-center min-h-screen py-4 px-6">
                     <p className="text-red-500">{error}</p>
                     <button
-                        onClick={() => router.push('/books')}
+                        onClick={() => router.push('/authors')}
                         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
-                        Retour à la liste des livres
+                        Retour à la liste des auteurs
                     </button>
                 </main>
             </GlobalLayout>
         );
     }
 
-    if (!book) {
+    if (!author) {
         return (
-            <GlobalLayout title="Detail du livre">
+            <GlobalLayout title="Detail de l'auteur">
                 <main className="flex flex-col items-center justify-center min-h-screen py-4 px-6">
-                    <p className="text-gray-500">Livre non trouvé.</p>
+                    <p className="text-gray-500">Auteur non trouvé.</p>
                     <button
-                        onClick={() => router.push('/books')}
+                        onClick={() => router.push('/authors')}
                         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
-                        Retour à la liste des livres
+                        Retour à la liste des auteurs
                     </button>
                 </main>
             </GlobalLayout>
@@ -70,35 +70,27 @@ const BookDetailPage = () => {
     }
 
     return (
-        <GlobalLayout title={`Detail du livre: ${book.title}`}>
+        <GlobalLayout title={`Detail de l'auteur: ${author.firstName} ${author.lastName}`}>
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
-                <h1 className="text-4xl font-bold mb-6">Detail du livre: {book.title}</h1>
+                <h1 className="text-4xl font-bold mb-6">Detail de l'auteur: {author.firstName} {author.lastName}</h1>
                 <div className="space-y-4">
                     <p>
-                        <strong>Titre du livre:</strong> {book.title}
+                        <strong>Nom de l'auteur:</strong> {author.firstName} {author.lastName}
                     </p>
+                    <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="mb-2" />
                     <p>
-                        <strong>Prix:</strong> {book.price ? `${book.price} €` : 'Non disponible'}
-                    </p>
-                    <p>
-                        <strong>Année de publication:</strong> {book.yearPublished ? book.yearPublished : 'Non disponible'}
-                    </p>
-                    <p>
-                        <strong>Nom de l’auteur:</strong>{' '}
-                        {book.author
-                            ? `${book.author.firstName} ${book.author.lastName}`
-                            : 'Auteur inconnu'}
+                        <strong>Nombre de livres écrits:</strong> {author.bookCount}
                     </p>
                 </div>
                 <button
-                    onClick={() => router.push('/books')}
+                    onClick={() => router.push('/authors')}
                     className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                    Retour à la liste des livres
+                    Retour à la liste des auteurs
                 </button>
             </main>
         </GlobalLayout>
     );
 };
 
-export default BookDetailPage;
+export default AuthorDetailPage;

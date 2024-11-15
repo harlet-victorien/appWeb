@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { GlobalLayout } from '../../GlobalLayout';
 import { useParams, useRouter } from 'next/navigation';
 import { useListBookProvider } from '../../../providers/useBooksProviders';
+import Link from 'next/link';
 
 const BookDetailPage = () => {
     const params = useParams();
@@ -83,12 +84,14 @@ const BookDetailPage = () => {
                     <p>
                         <strong>Année de publication:</strong> {book.yearPublished ? book.yearPublished : 'Non disponible'}
                     </p>
+                    <Link href={`/authors/${book.author.id}`}>
                     <p>
                         <strong>Nom de l’auteur:</strong>{' '}
                         {book.author
                             ? `${book.author.firstName} ${book.author.lastName}`
                             : 'Auteur inconnu'}
                     </p>
+                    </Link>
                 </div>
                 <button
                     onClick={() => router.push('/books')}

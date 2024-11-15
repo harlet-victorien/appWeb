@@ -5,11 +5,14 @@ import { GlobalLayout } from '../GlobalLayout.tsx';
 import { useListAuthorProvider } from '../../providers/useAuthorsProvider';
 import { Button } from '../../components/Button';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import CreateAuthorModal from '../../components/CreateAuthorModal';
+
 
 const AuthorsPage = () => {
     const { authorList, loadAuthors } = useListAuthorProvider();
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [filterCriteria, setFilterCriteria] = useState({
         name: '',
         bookCount: '',
@@ -17,8 +20,7 @@ const AuthorsPage = () => {
 
     const router = useRouter(); // Initialize router
 
-import CreateAuthorModal from '../../components/CreateAuthorModal';
-import { useState } from 'react';
+
 
 
     useEffect(() => {
@@ -36,6 +38,12 @@ import { useState } from 'react';
             return matchesName && matchesBookCount;
         });
     }, [authorList, searchTerm, filterCriteria]);
+
+
+    const handleCreateAuthor = (author) => {
+        loadAuthors();
+    };
+
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
@@ -62,14 +70,14 @@ import { useState } from 'react';
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
                 <h1 className="text-4xl font-bold mb-6">Bienvenue sur la Page des Auteurs</h1>
                 <button
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => setIsCreateOpen(true)}
                     className="mb-4 px-4 py-2 bg-green-500 text-white rounded-lg"
                 >
                     Add Author
                 </button>
                 <CreateAuthorModal
-                    open={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    open={isCreateOpen}
+                    onClose={() => setIsCreateOpen(false)}
                     onCreate={handleCreateAuthor}
                 />
                 {/* Barre de Recherche et Bouton Filtrer */}
@@ -103,7 +111,7 @@ import { useState } from 'react';
                                 <div className="border border-gray-300 text-black bg-gray-100 p-6 rounded-lg shadow-lg flex-grow sm:flex-grow-0 sm:w-auto">
                                     <h3 className="text-xl font-bold mb-2">{author.firstName} {author.lastName}</h3>
                                     <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="mb-2" />
-                                    <p className="text-gray-700 mb-2">Nombre de livres écrits : {author.bookCount}</p>
+                                    <p className="text-gray-700 mb-2">Nombre de livres écrits : {author.numberBooks}</p>
                                 </div>
                                 <button
                                     onClick={() => handleDetail(author.id)}

@@ -129,7 +129,7 @@ const BooksPage = () => {
                                 className="flex flex-col bg-white p-4 rounded-lg shadow"
                             >
                                 <div className="border border-gray-300 bg-blue-100 p-6 rounded-lg shadow-lg flex-grow sm:flex-grow-0 sm:w-auto">
-                                    <h3 className="text-xl font-bold mb-2">{book.title}</h3>
+                                    <h3 className="text-xl font-bold mb-2 text-black">{book.title}</h3>
                                     <p className="text-gray-700 mb-2">Publié en : {book.yearPublished}</p>
                                     <p className="text-gray-700 mb-2">Prix : {book.price} €</p>
                                     {book.author ? (

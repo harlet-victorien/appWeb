@@ -1,4 +1,3 @@
-// src/app/books/page.jsx
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -6,11 +5,15 @@ import { GlobalLayout } from '../GlobalLayout.tsx';
 import { useListBookProvider } from '../../providers/useBooksProviders';
 import { Button } from '../../components/Button';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import CreateBookModal from '../../components/CreateBookModal';
+
 
 const BooksPage = () => {
-    const { bookList, loadBooks, onCreate } = useListBookProvider();
+    const { bookList, loadBooks, onCreate, message } = useListBookProvider(); // Destructure message
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [isMessageOpen, setIsMessageOpen] = useState(false); // State for message modal
     const [filterCriteria, setFilterCriteria] = useState({
         author: '',
         price: '',
@@ -23,7 +26,12 @@ const BooksPage = () => {
         loadBooks();
     }, []);
 
-    // Utilisation de useMemo pour optimiser le filtrage
+    useEffect(() => {
+        if (message) {
+            setIsMessageOpen(true);
+        }
+    }, [message]);
+
     const filteredBookList = useMemo(() => {
         return bookList.filter((book) => {
             const matchesTitle = book.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -68,8 +76,31 @@ const BooksPage = () => {
         <GlobalLayout title="Page livre">
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
                 <h1 className="text-4xl font-bold mb-6">Bienvenue dans votre bibliothèque</h1>
-
-                {/* Barre de Recherche et Bouton Filtrer */}
+                <div>
+                    <button onClick={() => setIsCreateOpen(true)} className="mb-4 px-4 py-2 bg-green-500 text-white rounded-lg">Add Book</button>
+                    <CreateBookModal
+                        open={isCreateOpen}
+                        onClose={() => setIsCreateOpen(false)}
+                        onCreate={onCreate}
+                    />
+                </div>
+                {isMessageOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-black">
+                            <h2 className="text-xl font-bold mb-4">Message</h2>
+                            <p>{message}</p>
+                            <div className="flex justify-end mt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsMessageOpen(false)}
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="w-full mb-8 flex items-center space-x-4">
                     <input
                         type="text"
@@ -83,7 +114,7 @@ const BooksPage = () => {
                         className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
                         aria-label="Filtrer les livres"
                     >
-                        +
+                        Filtrer
                     </Button>
                 </div>
 
@@ -123,6 +154,7 @@ const BooksPage = () => {
                 )}
 
                 {/* Modal pour Filtrer les Livres */}
+
                 {isModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3">

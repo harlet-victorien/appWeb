@@ -9,6 +9,10 @@ export class AuthorPresenter {
 
   photoUrl: string;
 
+  biography: string;
+
+  numberBooks: number;
+
   private constructor(author: AuthorPresenter) {
     Object.assign(this, author);
   }
@@ -19,6 +23,8 @@ export class AuthorPresenter {
       firstName: author.firstName,
       lastName: author.lastName,
       photoUrl: author.photoUrl,
+      biography: author.biography,
+      numberBooks: author.numberBooks,
     });
   }
 }

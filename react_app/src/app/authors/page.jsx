@@ -17,9 +17,14 @@ const AuthorsPage = () => {
 
     const router = useRouter(); // Initialize router
 
+import CreateAuthorModal from '../../components/CreateAuthorModal';
+import { useState } from 'react';
+
+
     useEffect(() => {
         loadAuthors();
     }, []);
+
 
     // Utilisation de useMemo pour optimiser le filtrage
     const filteredAuthorList = useMemo(() => {
@@ -56,7 +61,17 @@ const AuthorsPage = () => {
         <GlobalLayout title="Page des Auteurs">
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
                 <h1 className="text-4xl font-bold mb-6">Bienvenue sur la Page des Auteurs</h1>
-
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="mb-4 px-4 py-2 bg-green-500 text-white rounded-lg"
+                >
+                    Add Author
+                </button>
+                <CreateAuthorModal
+                    open={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onCreate={handleCreateAuthor}
+                />
                 {/* Barre de Recherche et Bouton Filtrer */}
                 <div className="w-full mb-8 flex items-center space-x-4">
                     <input

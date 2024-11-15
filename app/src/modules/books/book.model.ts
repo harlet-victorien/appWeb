@@ -8,6 +8,8 @@ export type BookModel = {
     firstName: string;
     lastName: string;
     photoUrl: string;
+    biography: string;
+    numberBooks: number;
   };
 };
 

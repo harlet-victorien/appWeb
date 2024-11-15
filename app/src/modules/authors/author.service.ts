@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthorRepository } from './author.repository';
 import { AuthorModel } from './author.model';
+import { CreateAuthorDto } from './author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -14,7 +15,7 @@ export class AuthorService {
     return this.authorRepository.getAuthorById(id);
   }
 
-  public async createAuthor(input: AuthorModel): Promise<AuthorModel> {
+  public async createAuthor(input: CreateAuthorDto): Promise<AuthorModel> {
     return this.authorRepository.createAuthor(input);
   }
 

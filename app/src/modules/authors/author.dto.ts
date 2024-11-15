@@ -1,31 +1,43 @@
-import { IsString } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateAuthorDto {
-
-  @IsString()
-  id: string;
-
   @IsString()
   firstName: string;
 
   @IsString()
   lastName: string;
 
+  @IsOptional()
   @IsString()
   photoUrl: string;
+
+  @IsOptional()
+  @IsString()
+  biography: string;
+
+  @IsOptional()
+  @IsNumber()
+  numberBooks: number;
 }
 
 export class UpdateAuthorDto {
-
-  @IsString()
-  id: string;
-
+  @IsOptional()
   @IsString()
   firstName?: string;
 
+  @IsOptional()
   @IsString()
   lastName?: string;
 
+  @IsOptional()
   @IsString()
   photoUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  biography?: string;
+
+  @IsOptional()
+  @IsNumber()
+  numberBooks?: number;
 }

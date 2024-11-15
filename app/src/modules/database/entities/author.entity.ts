@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @Entity('authors')
 export class AuthorEntity extends BaseEntity {
@@ -11,6 +11,6 @@ export class AuthorEntity extends BaseEntity {
   @Column({ name: 'last_name', type: 'varchar' })
   lastName: string;
 
-  @Column({ name: 'photo_url', type: 'varchar', nullable: true, default: "no-photos" }) // Update column name
+  @Column({ name: 'photo_url', type: 'varchar', nullable: true })
   photoUrl: string;
 }

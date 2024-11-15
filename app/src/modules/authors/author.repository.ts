@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { AuthorEntity } from '../database/entities/author.entity';
 import { AuthorModel } from './author.model';
+import { CreateAuthorDto } from './author.dto';
 
 @Injectable()
 export class AuthorRepository {
@@ -19,7 +20,7 @@ export class AuthorRepository {
     return this.authorRepository.findOne({ where: { id } });
   }
 
-  public async createAuthor(input: AuthorModel): Promise<AuthorModel> {
+  public async createAuthor(input: CreateAuthorDto): Promise<AuthorModel> { 
     const author = this.authorRepository.create(input);
     return this.authorRepository.save(author);
   }

@@ -7,10 +7,11 @@ import { Button } from '../../components/Button';
 import CreateBookModal from '../../components/CreateBookModal';
 
 const BooksPage = () => {
-    const { bookList, loadBooks, onCreate } = useListBookProvider();
+    const { bookList, loadBooks, onCreate, message } = useListBookProvider(); // Destructure message
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [isMessageOpen, setIsMessageOpen] = useState(false); // State for message modal
     const [filterCriteria, setFilterCriteria] = useState({
         author: '',
         price: '',
@@ -20,6 +21,12 @@ const BooksPage = () => {
     useEffect(() => {
         loadBooks();
     }, []);
+
+    useEffect(() => {
+        if (message) {
+            setIsMessageOpen(true);
+        }
+    }, [message]);
 
     const filteredBookList = useMemo(() => {
         return bookList.filter((book) => {
@@ -69,6 +76,23 @@ const BooksPage = () => {
                         onCreate={onCreate}
                     />
                 </div>
+                {isMessageOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-black">
+                            <h2 className="text-xl font-bold mb-4">Message</h2>
+                            <p>{message}</p>
+                            <div className="flex justify-end mt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsMessageOpen(false)}
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="w-full mb-8 flex items-center space-x-4">
                     <input
                         type="text"

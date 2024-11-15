@@ -4,6 +4,7 @@ import { BookModel, CreateBookModel } from "../models/BookModel"
 
 export const useListBookProvider = () => {
   const [bookList, setBooks] = useState<BookModel[]>([]);
+  const [message, setMessage] = useState<string | null>(null); // Add message state
 
   const loadBooks = () => {
     axios.get<BookModel[]>('http://localhost:3001/books').then((response) => {
@@ -29,12 +30,15 @@ export const useListBookProvider = () => {
     })
   }
 
-  const onCreate = (input: CreateBookModel) => {
-    axios.post('http://localhost:3001/books', { book: input }).then(() => {
-      loadBooks()
-    }).catch((error) => {
-      console.error(error)
-    })
+  const onCreate = async (input: CreateBookModel) => {
+    try {
+      await axios.post('http://localhost:3001/books', { book: input });
+      loadBooks();
+      setMessage('Book created successfully!'); // Set success message
+    } catch (error) {
+      console.error(error);
+      setMessage('Failed to create book.'); // Set error message
+    }
   }
 
   return {
@@ -42,6 +46,7 @@ export const useListBookProvider = () => {
     onDelete,
     onUpdate,
     onCreate,
-    loadBooks
+    loadBooks,
+    message, // Return message state
   };
 };

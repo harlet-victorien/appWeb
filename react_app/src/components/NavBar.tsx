@@ -10,7 +10,7 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   { name: "Page d'accueil", path: '/' },
-  { name: 'Liste des livres', path: '/books' },
+  { name: 'Bibliothèque', path: '/books' },
   { name: 'Liste des auteurs', path: '/authors' },
 ];
 

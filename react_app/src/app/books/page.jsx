@@ -5,6 +5,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { GlobalLayout } from '../GlobalLayout.tsx';
 import { useListBookProvider } from '../../providers/useBooksProviders';
 import { Button } from '../../components/Button';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 const BooksPage = () => {
     const { bookList, loadBooks, onCreate } = useListBookProvider();
@@ -15,6 +16,8 @@ const BooksPage = () => {
         price: '',
         yearPublished: '',
     });
+
+    const router = useRouter(); // Initialize router
 
     useEffect(() => {
         loadBooks();
@@ -57,6 +60,10 @@ const BooksPage = () => {
         });
     };
 
+    const handleDetail = (id) => {
+        router.push(`/books/${id}`);
+    };
+
     return (
         <GlobalLayout title="Page livre">
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
@@ -88,33 +95,28 @@ const BooksPage = () => {
                         {filteredBookList.map((book) => (
                             <div
                                 key={book.id}
-                                className="border border-gray-300 bg-blue-100 p-6 rounded-lg shadow-lg flex-grow sm:flex-grow-0 sm:w-1/2 md:w-1/3 lg:w-1/4"
+                                className="flex flex-col bg-white p-4 rounded-lg shadow"
                             >
-                                <h3 className="text-xl font-bold mb-2">{book.title}</h3>
-                                <p className="text-gray-700 mb-2">Publié en : {book.yearPublished}</p>
-                                <p className="text-gray-700 mb-2">Prix : {book.price} €</p>
-                                {book.author ? (
-                                    <div className="flex items-center">
-                                        {book.author.photo ? (
-                                            <img
-                                                src={book.author.photo}
-                                                alt={`${book.author.firstName} ${book.author.lastName}`}
-                                                className="w-10 h-10 rounded-full mr-3"
-                                            />
-                                        ) : (
-                                            <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 flex items-center justify-center text-white">
-                                                ?
-                                            </div>
-                                        )}
-                                        <div>
+                                <div className="border border-gray-300 bg-blue-100 p-6 rounded-lg shadow-lg flex-grow sm:flex-grow-0 sm:w-auto">
+                                    <h3 className="text-xl font-bold mb-2">{book.title}</h3>
+                                    <p className="text-gray-700 mb-2">Publié en : {book.yearPublished}</p>
+                                    <p className="text-gray-700 mb-2">Prix : {book.price} €</p>
+                                    {book.author ? (
+                                        <div className="flex items-center">
                                             <p className="text-gray-800">
                                                 Auteur : {book.author.firstName} {book.author.lastName}
                                             </p>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <p className="text-gray-500">Auteur inconnu</p>
-                                )}
+                                    ) : (
+                                        <p className="text-gray-500">Auteur inconnu</p>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={() => handleDetail(book.id)}
+                                    className="mt-4 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 self-end"
+                                >
+                                    Detail
+                                </button>
                             </div>
                         ))}
                     </div>

@@ -4,10 +4,19 @@ import { BookModel, CreateBookModel } from "../models/BookModel"
 
 export const useListBookProvider = () => {
   const [bookList, setBooks] = useState<BookModel[]>([]);
+  const [book, setBook] = useState<BookModel | null>(null);
 
   const loadBooks = () => {
     axios.get<BookModel[]>('http://localhost:3001/books').then((response) => {
       setBooks(response.data)
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+  const loadBooksid = (id: string) => {
+    axios.get<BookModel>(`http://localhost:3001/books/${id}`).then((response) => {
+      setBook(response.data)
     }).catch((error) => {
       console.error(error)
     })
@@ -21,9 +30,9 @@ export const useListBookProvider = () => {
     })
   }
 
-  const onUpdate = (id: string, title: string, price: number) => { // Add price parameter
-    axios.patch(`http://localhost:3001/books/${id}`, { title, price }).then(() => { // Include price in request
-      setBooks((prev) => prev.map(book => book.id === id ? { ...book, title, price } : book)) // Update price in state
+  const onUpdate = (id: string, title: string, price: number) => {
+    axios.patch(`http://localhost:3001/books/${id}`, { title, price }).then(() => {
+      setBooks((prev) => prev.map(book => book.id === id ? { ...book, title, price } : book))
     }).catch((error) => {
       console.error(error)
     })
@@ -39,9 +48,11 @@ export const useListBookProvider = () => {
 
   return {
     bookList,
+    book,
     onDelete,
     onUpdate,
     onCreate,
-    loadBooks
+    loadBooks,
+    loadBooksid
   };
 };

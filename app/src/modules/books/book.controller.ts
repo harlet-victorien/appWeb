@@ -31,6 +31,7 @@ export class BookController {
 
   @Post()
   public async createBook(@Body() input: CreateBooksDto) {
+    console.log(input);
     if (input.books) {
       return Promise.all(
         input.books.map((book) => this.bookService.createBook(book)),

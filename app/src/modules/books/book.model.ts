@@ -2,10 +2,12 @@ export type BookModel = {
   id: string;
   title: string;
   yearPublished: number;
+  price: number;
   author: {
     id: string;
     firstName: string;
     lastName: string;
+    photoUrl: string;
   };
 };
 
@@ -17,6 +19,7 @@ export type CreateBookAuthorModel = {
 export type CreateBookModel = {
   title: string;
   yearPublished: number;
+  price: number;
   authorId: string;
 };
 

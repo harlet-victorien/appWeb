@@ -31,7 +31,7 @@ const BooksPage = () => {
                 <p className="mt-4 text-lg">Cette page affiche la liste des livres.</p>
                 <ul>
                     {bookList.map((book) => (
-                        <li key={book.id}>{book.title}</li>
+                        <li key={book.id}>{book.title} - ${book.price}</li>
                     ))}
                 </ul>
                 <div className="mt-4">

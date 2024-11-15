@@ -1,6 +1,10 @@
 import { IsString } from 'class-validator';
 
 export class CreateAuthorDto {
+
+  @IsString()
+  id: string;
+
   @IsString()
   firstName: string;
 
@@ -8,5 +12,20 @@ export class CreateAuthorDto {
   lastName: string;
 
   @IsString()
-  photo: string;
+  photoUrl: string;
+}
+
+export class UpdateAuthorDto {
+
+  @IsString()
+  id: string;
+
+  @IsString()
+  firstName?: string;
+
+  @IsString()
+  lastName?: string;
+
+  @IsString()
+  photoUrl?: string;
 }

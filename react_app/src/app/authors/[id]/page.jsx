@@ -77,9 +77,12 @@ const AuthorDetailPage = () => {
                     <p>
                         <strong>Nom de l'auteur:</strong> {author.firstName} {author.lastName}
                     </p>
-                    <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="mb-2" />
+                    <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="h-64 mb-2" />
                     <p>
                         <strong>Nombre de livres écrits:</strong> {author.bookCount}
+                    </p>
+                    <p>
+                        <strong>Biographie:</strong> {author.biography}
                     </p>
                 </div>
                 <button

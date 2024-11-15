@@ -110,7 +110,7 @@ const AuthorsPage = () => {
                             >
                                 <div className="border border-gray-300 text-black bg-gray-100 p-6 rounded-lg shadow-lg flex-grow sm:flex-grow-0 sm:w-auto">
                                     <h3 className="text-xl font-bold mb-2">{author.firstName} {author.lastName}</h3>
-                                    <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="mb-2" />
+                                    <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} className="h-32 mb-2" />
                                     <p className="text-gray-700 mb-2">Nombre de livres écrits : {author.numberBooks}</p>
                                 </div>
                                 <button

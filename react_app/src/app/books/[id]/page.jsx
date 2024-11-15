@@ -5,14 +5,16 @@ import { GlobalLayout } from '../../GlobalLayout';
 import { useParams, useRouter } from 'next/navigation';
 import { useListBookProvider } from '../../../providers/useBooksProviders';
 import Link from 'next/link';
+import DeleteBookModal from '../../../components/DeleteBookModal';
 
 const BookDetailPage = () => {
     const params = useParams();
     const { id } = params;
     const router = useRouter();
-    const { book, loadBooksid } = useListBookProvider();
+    const { book, loadBooksid, onDelete } = useListBookProvider();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -27,6 +29,16 @@ const BookDetailPage = () => {
 
         fetchBook();
     }, [id]);
+
+    const handleDelete = async () => {
+        try {
+            await onDelete(id);
+            router.push('/books');
+        } catch (err) {
+            console.error('Failed to delete book:', err);
+            alert('Failed to delete book');
+        }
+    };
 
     if (loading) {
         return (
@@ -93,12 +105,25 @@ const BookDetailPage = () => {
                     </p>
                     </Link>
                 </div>
-                <button
-                    onClick={() => router.push('/books')}
-                    className="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                    Retour à la liste des livres
-                </button>
+                <div className="flex space-x-4 mt-6">
+                    <button
+                        onClick={() => router.push('/books')}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                        Retour à la liste des livres
+                    </button>
+                    <button
+                        onClick={() => setIsDeleteModalOpen(true)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    >
+                        Delete Book
+                    </button>
+                </div>
+                <DeleteBookModal
+                    open={isDeleteModalOpen}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    onDelete={handleDelete}
+                />
             </main>
         </GlobalLayout>
     );

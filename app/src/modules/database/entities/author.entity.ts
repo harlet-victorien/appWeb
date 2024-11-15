@@ -13,4 +13,10 @@ export class AuthorEntity extends BaseEntity {
 
   @Column({ name: 'photo_url', type: 'varchar', nullable: true })
   photoUrl: string;
+
+  @Column({ name: 'biography', type: 'text', nullable: true, default: '' })
+  biography: string;
+
+  @Column({ name: 'number_books', type: 'int', nullable: true, default: 0 })
+  numberBooks: number;
 }

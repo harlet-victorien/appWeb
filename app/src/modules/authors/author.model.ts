@@ -3,6 +3,8 @@ export type AuthorModel = {
   firstName: string;
   lastName: string;
   photoUrl: string;
+  biography: string;
+  numberBooks: number;
 };
 
 export type CreateAuthorModel = {
@@ -10,6 +12,8 @@ export type CreateAuthorModel = {
   firstName: string;
   lastName: string;
   photoUrl: string;
+  biography: string;
+  numberBooks: number;
 };
 
 export type UpdateAuthorModel = {
@@ -17,6 +21,8 @@ export type UpdateAuthorModel = {
   firstName?: string;
   lastName?: string;
   photoUrl?: string;
+  biography?: string;
+  numberBooks?: number;
 };
 
 

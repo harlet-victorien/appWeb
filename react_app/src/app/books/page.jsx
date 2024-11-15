@@ -69,7 +69,7 @@ const BooksPage = () => {
             <main className="flex flex-col items-start justify-start min-h-screen py-4 px-6">
                 <h1 className="text-4xl font-bold mb-6">Bienvenue dans votre bibliothèque</h1>
                 <div>
-                    <button onClick={() => setIsCreateOpen(true)}>Add Book</button>
+                    <button onClick={() => setIsCreateOpen(true)} className="mb-4 px-4 py-2 bg-green-500 text-white rounded-lg">Add Book</button>
                     <CreateBookModal
                         open={isCreateOpen}
                         onClose={() => setIsCreateOpen(false)}

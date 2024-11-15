@@ -20,7 +20,10 @@ const AuthorsPage = () => {
                 <p className="mt-4 text-lg">Cette page affiche la liste des auteurs.</p>
                 <ul>
                     {authorList.map((author) => (
-                        <li key={author.id}>Prenom : {author.firstName} Nom : {author.lastName} Photo : {author.photo}</li>
+                        <li key={author.id}>
+                            Prenom : {author.firstName} Nom : {author.lastName} 
+                            <img src={author.photoUrl} alt={`${author.firstName} ${author.lastName}`} /> {/* Display photo */}
+                        </li>
                     ))}
                 </ul>
             </main>

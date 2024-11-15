@@ -1,10 +1,13 @@
-export type BookModel = {
-  id: string
-  title: string
+export interface BookModel {
+  id: string;
+  title: string;
+  yearPublished: number;
+  price: number;
 }
 
-export type CreateBookModel = {
-  title: string
-  yearPublished: number
-  authorId: string
+export interface CreateBookModel {
+  title: string;
+  yearPublished: number;
+  price: number;
+  authorId: string;
 }

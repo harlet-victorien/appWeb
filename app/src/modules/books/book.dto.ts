@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class CreateBookAuthorDto {
   @IsString()
@@ -16,13 +16,15 @@ export class CreateBookDto {
   @IsInt()
   yearPublished: number;
 
+  @IsNumber()
+  price: number; // Add this line
+
   @Type(() => CreateBookAuthorDto)
   authorId: string;
 }
 
 export class CreateBooksDto {
   book?: CreateBookDto;
-
   books?: CreateBookDto[];
 }
 
@@ -34,6 +36,10 @@ export class UpdateBookDto {
   @IsInt()
   @IsOptional()
   yearPublished: number;
+
+  @IsNumber()
+  @IsOptional()
+  price: number; // Add this line
 
   @Type(() => CreateBookAuthorDto)
   @IsOptional()

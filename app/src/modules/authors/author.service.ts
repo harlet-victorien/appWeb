@@ -1,18 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { AuthorEntity } from '../database/entities/author.entity';
-import { CreateAuthorDto } from './author.dto';
+import { AuthorRepository } from './author.repository';
+import { AuthorModel } from './author.model';
 
 @Injectable()
 export class AuthorService {
-  constructor(
-    @InjectRepository(AuthorEntity)
-    private readonly authorRepository: Repository<AuthorEntity>,
-  ) {}
+  constructor(private readonly authorRepository: AuthorRepository) {}
 
-  async create(createAuthorDto: CreateAuthorDto): Promise<AuthorEntity> {
-    const author = this.authorRepository.create(createAuthorDto);
-    return this.authorRepository.save(author);
+  public async listAuthors(): Promise<AuthorModel[]> {
+    return this.authorRepository.listAuthors();
+  }
+
+  public async getAuthorById(id: string): Promise<AuthorModel | undefined> {
+    return this.authorRepository.getAuthorById(id);
+  }
+
+  public async createAuthor(input: AuthorModel): Promise<AuthorModel> {
+    return this.authorRepository.createAuthor(input);
+  }
+
+  public async updateAuthor(id: string, input: Partial<AuthorModel>): Promise<void> {
+    return this.authorRepository.updateAuthor(id, input);
+  }
+
+  public async deleteAuthor(id: string): Promise<void> {
+    return this.authorRepository.deleteAuthor(id);
   }
 }
